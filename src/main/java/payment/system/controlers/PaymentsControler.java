@@ -57,7 +57,7 @@ public class PaymentsControler {
 
     @ExceptionHandler
     private ResponseEntity<PaymentErrorResponse> handlerException(PaymentNotFoundException ex) {
-        PaymentErrorResponse paymentErrorResponse = new PaymentErrorResponse("This identifier wasn't find");
+        PaymentErrorResponse paymentErrorResponse = new PaymentErrorResponse("Identifier wasn't find");
         return new ResponseEntity<>(paymentErrorResponse, HttpStatus.NOT_FOUND);
     }
 
