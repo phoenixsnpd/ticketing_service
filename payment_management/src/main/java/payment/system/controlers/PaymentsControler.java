@@ -11,7 +11,6 @@ import payment.system.PaymentStatus;
 import payment.system.dto.PaymentDTO;
 import payment.system.entity.Payment;
 import payment.system.services.PaymentService;
-import payment.system.util.PaymentErrorResponse;
 import payment.system.util.PaymentNotCreatedException;
 import payment.system.util.PaymentNotFoundException;
 
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/payments")
+@RequestMapping("/")
 public class PaymentsControler {
 
     private final PaymentService paymentService;
@@ -28,7 +27,7 @@ public class PaymentsControler {
         this.paymentService = paymentService;
     }
 
-    @PostMapping()
+    @PostMapping("/payments")
     public UUID pay(@RequestBody @Valid PaymentDTO paymentDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuilder errorMessage = new StringBuilder();
@@ -37,7 +36,7 @@ public class PaymentsControler {
                 errorMessage.append(error.getField())
                         .append(" - ")
                         .append(error.getDefaultMessage())
-                        .append(";");
+                        .append("; ");
             }
             throw new PaymentNotCreatedException(errorMessage.toString());
         }
@@ -55,16 +54,14 @@ public class PaymentsControler {
         return paymentService.getPaymentStatus(identifier);
     }
 
-    @ExceptionHandler
-    private ResponseEntity<PaymentErrorResponse> handlerException(PaymentNotFoundException ex) {
-        PaymentErrorResponse paymentErrorResponse = new PaymentErrorResponse("Identifier wasn't find");
-        return new ResponseEntity<>(paymentErrorResponse, HttpStatus.NOT_FOUND);
+    @ExceptionHandler(PaymentNotFoundException.class)
+    private ResponseEntity<String> handlerException() {
+        return new ResponseEntity<>("Identifier wasn't find", HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler
-    private ResponseEntity<PaymentErrorResponse> handlerException(PaymentNotCreatedException ex) {
-        PaymentErrorResponse paymentErrorResponse = new PaymentErrorResponse(ex.getMessage());
-        return new ResponseEntity<>(paymentErrorResponse, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(PaymentNotCreatedException.class)
+    private ResponseEntity<String> handlerException(PaymentNotCreatedException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     private Payment convertPaymentDTO(PaymentDTO paymentDTO) {

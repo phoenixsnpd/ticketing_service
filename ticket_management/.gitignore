@@ -1,0 +1,8 @@
+# Project exclude paths
+.log
+.idea
+.git
+out
+*.iml
+*.class
+target

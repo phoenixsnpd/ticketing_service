@@ -1,0 +1,23 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ticketmanagementdb
+    username: user
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: true
+logging:
+  level:
+    root: info
+    ua.ithillel.homework32.web: info
+  pattern:
+    console: "%d{yyyy-mm-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-mm-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"
+  file:
+    path: logs

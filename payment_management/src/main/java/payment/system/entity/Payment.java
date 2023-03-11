@@ -12,9 +12,9 @@ import payment.system.PaymentStatus;
 import java.util.UUID;
 
 @Entity
+@Table(name = "payments")
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "payment_identifiers")
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +26,12 @@ public class Payment {
 
     @Column(name = "name")
     @NotEmpty(message = "Name should not be empty.")
-    @Size(min = 2, max = 30, message = "Name should be betwen 2 and 30 characters")
+    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     String name;
 
     @Column(name = "surname")
     @NotEmpty(message = "Surame should not be empty.")
-    @Size(min = 2, max = 30, message = "Surame should be betwen 2 and 30 characters")
+    @Size(min = 2, max = 30, message = "Surame should be between 2 and 30 characters")
     String surname;
 
     @Column(name = "paymentSum")
